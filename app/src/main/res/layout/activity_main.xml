@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@drawable/background1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="BALL AND PADDLE GAME"
+        android:id="@+id/textView"
+        android:textColor="#00ff11"
+        android:textStyle="bold"
+        android:layout_marginTop="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/diff1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   DIFFICULTY 1   "
+        android:textColor="#00ff11"
+        android:background="#514848"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:onClick="diff1"
+        />
+
+    <Button
+        android:id="@+id/diff2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   DIFFICULTY 2   "
+        android:textColor="#00ff11"
+        android:background="#514848"
+
+        android:layout_below="@+id/diff1"
+        android:layout_toLeftOf="@+id/diff1"
+        android:layout_toStartOf="@+id/diff1"
+        android:layout_marginTop="97dp"
+        android:onClick="diff2"
+        />
+
+    <Button
+        android:id="@+id/diff3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   DIFFICULTY 3   "
+        android:textColor="#00ff11"
+        android:background="#514848"
+
+        android:layout_alignTop="@+id/diff2"
+        android:layout_toRightOf="@+id/diff1"
+        android:layout_toEndOf="@+id/diff1"
+        android:onClick="diff3"
+        />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    HELP   "
+        android:textColor="#00ff11"
+        android:background="#514848"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/diff1"
+        android:layout_alignStart="@+id/diff1"
+        android:layout_marginBottom="37dp"
+        android:layout_alignRight="@+id/diff1"
+        android:layout_alignEnd="@+id/diff1"
+        android:onClick="help"
+        />
+
+</RelativeLayout>
