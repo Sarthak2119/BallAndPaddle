@@ -12,10 +12,10 @@ public class Ball extends GameObject{
     Bitmap bitmap;
     private long startTime;
 
-    public Ball(Bitmap bitmap,int width,int height)
+    public Ball(Bitmap bitmap,int width,int height,int paddleHeight)
     {
         x=(GamePanel.WIDTH-54)/2;
-        y=(400-55);
+        y=(GamePanel.HEIGHT-paddleHeight-55);
         dx=-8;
         dy=-8;
         this.bitmap=bitmap;

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Try1</string>
+    <string name="app_name">BallAndPaddle</string>
+    <string name="help_text">The Game is all about preventing the ball(s) from touching the bottom by the help of a paddle. The number of balls as well as speed of each ball increases with time.</string>
+    <string name="about_me">Name-Sarthak Taneja\t\t\t\t\tCollege-MNNIT Allahabad</string>
 </resources>

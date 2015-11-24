@@ -19,19 +19,20 @@ public class Paddle extends GameObject {
         speed=0;
         score=0;
         dx=0;
-        x=295;
-        y=400;
         this.bitmap=bitmap;
         this.width=width;
         this.height=height;
+
+        x=(GamePanel.WIDTH-width)/2;
+        y=(GamePanel.HEIGHT-height);
         startTime=System.nanoTime();
     }
 
     public void update()
     {
         x+=dx;
-        if(x>800-230)
-            x=800-230;
+        if(x>GamePanel.WIDTH-width)
+            x=GamePanel.WIDTH-width;
         if(x<0)
             x=0;
         long elapsed=(System.nanoTime()-startTime)/1000000;
@@ -70,6 +71,16 @@ public class Paddle extends GameObject {
     public int getScore()
     {
         return score;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
     }
 
     public boolean getPlaying(){return playing;}

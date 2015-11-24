@@ -1,6 +1,7 @@
 package com.example.sarthak.try1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -40,10 +41,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder surfaceHolder)
     {
         paddles=new ArrayList<Paddle>();
-        //paddles.add(new Paddle());
-        paddle=new Paddle(BitmapFactory.decodeResource(getResources(),R.drawable.paddle),230,47);
+        paddles.add(new Paddle(BitmapFactory.decodeResource(getResources(),R.drawable.paddle3),340,15));
+        paddles.add(new Paddle(BitmapFactory.decodeResource(getResources(),R.drawable.paddle2),270,48));
+        paddles.add(new Paddle(BitmapFactory.decodeResource(getResources(),R.drawable.paddle1),230,47));
+        paddle=paddles.get(difflevel);
+        paddle.setSpeed(45*340/paddle.getWidth());
         ball=new ArrayList<Ball>();
-        ball.add(new Ball(BitmapFactory.decodeResource(getResources(),R.drawable.rsz_red_ball),54,55));
+        ball.add(new Ball(BitmapFactory.decodeResource(getResources(),R.drawable.rsz_red_ball),54,55,paddle.getHeight()));
         newGameCreated=true;
         previousScore=0;
 
@@ -93,7 +97,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             {
                 paddle.moveLeft();
             }
-            else  if((paddle.getX()+230)*scaleFactorX<touchX)
+            else  if((paddle.getX()+paddle.getWidth())*scaleFactorX<touchX)
             {
                 paddle.moveRight();
             }
@@ -119,7 +123,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             bounce();
             if((System.nanoTime()-startTime)/1000000>20000&&ball.size()<3)
             {
-                ball.add(new Ball(BitmapFactory.decodeResource(getResources(),R.drawable.rsz_red_ball),54,55));
+                ball.add(new Ball(BitmapFactory.decodeResource(getResources(), R.drawable.rsz_red_ball), 54, 55, paddle.getHeight()));
                 startTime=System.nanoTime();
             }
         }
@@ -165,18 +169,27 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             if(b.y<=0) {
                 b.setDy(-1 * b.getDy());
             }
-            if(b.y+55>=(430)) {
-                paddle.setPlaying(false);
-                break;
-            }
             if(collision(b,paddle)) {
-                if(b.getX()+55>=paddle.getX()&&b.getX()<=paddle.getX()+229)
+                if(b.getX()+55>=paddle.getX()&&b.getX()<=paddle.getX()+paddle.getWidth())
+                {
                     b.setDy(-1 * b.getDy());
+                    int paddlex;
+                    int ballx;
+                    paddlex=paddle.getX()+paddle.getWidth()/2;
+                    ballx=b.x+54/2;
+                    b.setDx(b.getDx()+(ballx-paddlex)/40);
+                }
                 else
                 {
                     paddle.setPlaying(false);
+                    updateHighScore();
                     break;
                 }
+            }
+            else if(b.y+55>=(HEIGHT-paddle.getHeight()+5)) {
+                paddle.setPlaying(false);
+                updateHighScore();
+                break;
             }
         }
     }
@@ -193,9 +206,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void newGame()
     {
         paddle.resetScore();
-        paddle.setX(295);
+        paddle.setX((GamePanel.WIDTH-paddle.getWidth())/2);
         ball.clear();
-        ball.add(new Ball(BitmapFactory.decodeResource(getResources(), R.drawable.rsz_red_ball), 54, 55));
+        ball.add(new Ball(BitmapFactory.decodeResource(getResources(), R.drawable.rsz_red_ball), 54, 55,paddle.getHeight()));
         newGameCreated=true;
     }
 
@@ -218,5 +231,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
             canvas.drawText("PRESS TO START", WIDTH/2-150+4, HEIGHT/2, paint1);
         }
+    }
+
+    public void updateHighScore()
+    {
+        int currentScore=paddle.getScore();
+        SharedPreferences preferences=getContext().getSharedPreferences("MyHighScore", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        int[] score=new int[3];
+        score[0]=preferences.getInt("level"+difflevel+"a",0);
+        score[1]=preferences.getInt("level"+difflevel+"b",0);
+        score[2]=preferences.getInt("level"+difflevel+"c",0);
+
+        for(int i=0;i<3;i++)
+        {
+            if(currentScore>score[i])
+            {
+                int temp=currentScore;
+                currentScore=score[i];
+                score[i]=temp;
+            }
+        }
+
+        editor.putInt("level"+difflevel+"a",score[0]);
+        editor.putInt("level"+difflevel+"b",score[1]);
+        editor.putInt("level"+difflevel+"c",score[2]);
+        editor.commit();
     }
 }
